@@ -12,9 +12,10 @@ export class BoardsService {
         @InjectRepository(BoardRepository)
         private boardRepository: BoardRepository,
     ) {}
-    // getAllBoards(): Board[] {
-    //     return this.boards;
-    // }
+
+    async getAllBoards(): Promise <Board[]> {
+        return this.boardRepository.find();
+    }
 
     async createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
         const {title, description} = createBoardDto;
@@ -28,18 +29,7 @@ export class BoardsService {
         await this.boardRepository.save(board);
         return board;
     }
-    // createBoard(createBoardDto: CreateBoardDto) {
-    //     const {title, description} = createBoardDto;
-    //     const board: Board = {
-    //         id: uuid(),
-    //         title,
-    //         description,
-    //         status: BoardStatus.PUBLIC
-    //     }
 
-    //     this.boards.push(board)
-    //     return board;
-    // }
 
     async getBoardById(id: number): Promise <Board> {
         const found = await this.boardRepository.findOneBy({id})
@@ -50,14 +40,7 @@ export class BoardsService {
         return found;
     }
 
-    // getBoardById(id: string): Board {
-    //     const found = this.boards.find((board) => board.id === id);
 
-    //     if (!found) {
-    //         throw new NotFoundException(`Can't find Board with id ${id}`);
-    //     }
-    //     return found;
-    // }
 
     async deleteBoard(id: number): Promise<void> {
         const result = await this.boardRepository.delete(id);
@@ -67,10 +50,6 @@ export class BoardsService {
         }
     }
 
-    // deleteBoard(id: string): void {
-    //     const found = this.getBoardById(id);
-    //     this.boards = this.boards.filter((board) => board.id !== found.id)
-    // }
 
     async updateBoardStatus(id: number, status: BoardStatus): Promise<Board> {
         const board = await this.getBoardById(id);
@@ -81,9 +60,4 @@ export class BoardsService {
         return board;
     }
 
-    // updateBoardStatus(id: string, status: BoardStatus): Board {
-    //     const board = this.getBoardById(id);
-    //     board.status = status;
-    //     return board;
-    // }
 }
