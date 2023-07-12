@@ -9,6 +9,6 @@ export class BoardRepository extends Repository<Board> {
     }
     
     async getBoardById(id: number) {
-    	return await this.findOneBy({id: id});
+      return await this.findOneBy({id: id});
     }
 }
